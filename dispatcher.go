@@ -1,6 +1,7 @@
 package osc
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -70,6 +71,7 @@ func (d Dispatcher) invoke(p Packet, exactMatch bool) error {
 
 // Invoke invokes an OSC message.
 func (d Dispatcher) Invoke(msg Message, exactMatch bool) error {
+	fmt.Printf("got message: %v\n", msg)
 	for address, handler := range d {
 		matched, err := msg.Match(address, exactMatch)
 		if err != nil {
