@@ -129,9 +129,11 @@ type readSender interface {
 }
 
 func serve(r readSender, numWorkers int, exactMatch bool, dispatcher Dispatcher) error {
-	if err := checkDispatcher(dispatcher); err != nil {
-		return err
-	}
+	/*
+		if err := checkDispatcher(dispatcher); err != nil {
+			return err
+		}
+	*/
 	var (
 		errChan = make(chan error)
 		ready   = make(chan Worker, numWorkers)
