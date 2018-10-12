@@ -52,7 +52,6 @@ func (d Dispatcher) immediately(b Bundle, exactMatch bool) error {
 		if len(errs) > 0 {
 			return errors.New(strings.Join(errs, " and "))
 		}
-		return nil
 	}
 	return nil
 }
@@ -73,12 +72,15 @@ func (d Dispatcher) invoke(p Packet, exactMatch bool) error {
 func (d Dispatcher) Invoke(msg Message, exactMatch bool) error {
 	fmt.Printf("got message: %v\n", msg)
 	for address, handler := range d {
+		if address == "*" {
+			handler.Handle(msg)
+		}
 		matched, err := msg.Match(address, exactMatch)
 		if err != nil {
 			return err
 		}
 		if matched {
-			return handler.Handle(msg)
+			handler.Handle(msg)
 		}
 	}
 	return nil
